@@ -1,0 +1,12 @@
+[project]
+name = "study-etna"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "etna[all]",
+]
+
+[tool.uv.sources]
+etna = { git = "https://github.com/etna-team/etna.git", rev = "3.0.0" }
