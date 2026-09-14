@@ -1,7 +1,6 @@
 # Карта библиотеки ETNA
 
-
-![map](weeks/src/etna-map.png)
+![map](src/etna-map.png)
 
 
 
