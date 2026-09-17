@@ -226,3 +226,4 @@ __marimo__/
 # Purchased book PDFs — copyrighted material, never commit
 local/book/
 /local/
+/weeks/week-01-infra-and-classic-models/mlruns/

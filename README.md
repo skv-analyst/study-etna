@@ -82,3 +82,24 @@ print('OK: TSDataset and NaiveModel imported successfully')
 etna version: 3.0.0
 OK: TSDataset and NaiveModel imported successfully
 ```
+
+## Логирование экспериментов (MLflow)
+
+Метрики моделей из ноутбуков логируются через `log_to_mlflow()` (см. [`src/custom_logger.py`](src/custom_logger.py))
+в локальный MLflow — трекинг полностью на диске, ничего никуда не отправляется. База лежит в
+`local/mlruns/mlflow.db` (`local/` в `.gitignore`, в репозиторий не попадает).
+
+Чтобы посмотреть результаты в вебе, из корня репозитория:
+
+```bash
+uv run mlflow ui --backend-store-uri "sqlite:///local/mlruns/mlflow.db" --port 5000
+```
+
+И открыть [http://127.0.0.1:5000](http://127.0.0.1:5000) в браузере. Все запуски лежат в одном эксперименте
+`study-etna` — так удобнее сравнивать модели между собой.
+
+По каким полям ориентироваться в таблице запусков:
+- **Run name** — `{модель}_{глава}_{охват данных}`, например `NaiveModel_ch02_all_10_day`.
+- **Тэги** `chapter`, `units_scope`, `granularity` — можно добавить как колонки таблицы и фильтровать/сортировать
+  по ним (например, отдельно смотреть только `granularity=hour`, когда дойдём до сравнения с продом).
+- **Artifacts → `metrics_by_segment.json`** — полная таблица метрик по каждому юниту за этот запуск.
