@@ -3,14 +3,23 @@ from typing import Dict, Optional
 
 import mlflow
 import pandas as pd
+from mlflow.tracking import MlflowClient
 
 # src/custom_logger.py -> parents[1] это корень репозитория (study-etna/)
 _TRACKING_DIR = Path(__file__).resolve().parents[1] / "local" / "mlruns"
+_ARTIFACT_DIR = _TRACKING_DIR / "artifacts"
 _TRACKING_DIR.mkdir(parents=True, exist_ok=True)
 
 # Начиная с mlflow 3.x чистый "file://" filestore в maintenance mode и требует
 # явного опт-аута, поэтому используем sqlite (тоже полностью локально, файл на диске)
 mlflow.set_tracking_uri(f"sqlite:///{_TRACKING_DIR}/mlflow.db")
+
+# ВАЖНО: artifact_location задаём явно при создании эксперимента. Без этого mlflow
+# сам выбирает путь по умолчанию относительно текущего рабочего каталога ПРОЦЕССА
+# (у Jupyter это папка ноутбука, не этого файла) и намертво прописывает его в базу —
+_client = MlflowClient()
+if _client.get_experiment_by_name("study-etna") is None:
+    _client.create_experiment("study-etna", artifact_location=f"file:{_ARTIFACT_DIR}")
 mlflow.set_experiment("study-etna")
 
 
