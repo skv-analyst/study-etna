@@ -8,6 +8,7 @@ dependencies = [
     "etna[all]",
     "ipykernel>=7.3.0",
     "mlflow>=3.16.1",
+    "scikit-learn<1.6",
 ]
 
 [tool.uv.sources]
