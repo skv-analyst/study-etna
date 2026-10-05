@@ -224,4 +224,5 @@ __marimo__/
 .idea/
 
 # Purchased book PDFs — copyrighted material, never commit
-book/
+local/book/
+/local/
